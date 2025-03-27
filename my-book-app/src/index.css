@@ -1,0 +1,137 @@
+/* Basic Reset / Body Styling */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 20px;
+  background-color: #f4f7f6;
+  color: #333;
+}
+
+/* Center content roughly */
+#root > div { /* Targets the main div inside App.tsx */
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Form Styling */
+form div {
+  margin-bottom: 15px; /* Space between form rows */
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  width: 95%; /* Adjust width as needed */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Button Styling */
+button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 5px; /* Add space between adjacent buttons */
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Error and Success Messages */
+p[style*="color: red"], 
+p[style*="color: green"] {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+p[style*="color: red"] {
+  background-color: #fdd; /* Light red background for errors */
+  border: 1px solid #fbb;
+}
+
+p[style*="color: green"] {
+   background-color: #dfd; /* Light green background for success */
+   border: 1px solid #bfb;
+}
+
+
+/* Links */
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Book List Styling */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #ecf0f1;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  display: flex; /* Use flexbox for alignment */
+  justify-content: space-between; /* Space out content and buttons */
+  align-items: center; /* Vertically align items */
+}
+
+li span { /* Assuming book details are wrapped in a span or similar */
+ flex-grow: 1; /* Allow text to take available space */
+ margin-right: 10px; /* Space before buttons */
+}
+
+li div { /* Group buttons if needed */
+  display: flex;
+  gap: 5px; /* Space between buttons */
+}
+
+/* Horizontal Rule */
+hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
