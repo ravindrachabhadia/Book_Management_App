@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Keep Link for Edit button
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getBooks, deleteBook, Book } from '../services/bookService';
-// Import Mantine components
 import { List, Button, Text, Loader, Alert, Stack, Group, Title, Container } from '@mantine/core';
 import { IconAlertCircle, IconTrash, IconEdit } from '@tabler/icons-react'; // Removed IconPlus
 
 const BookListPage = () => {
-  const { token } = useAuth(); // Removed logout from here, Navbar handles it
+  const { token } = useAuth(); 
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  // Removed useNavigate as the button using it was removed
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -25,9 +23,15 @@ const BookListPage = () => {
         setError(null);
         const fetchedBooks = await getBooks(token);
         setBooks(fetchedBooks);
-      } catch (err: any) {
+      } catch (err: unknown) { // <-- Fixed: unknown type
         console.error('Failed to fetch books:', err);
-        setError(err.message || 'Failed to load books.');
+        let message = 'Failed to load books.';
+        if (err instanceof Error) {
+             message = err.message; // <-- Added type check
+        } else if (typeof err === 'string') {
+             message = err;
+        }
+        setError(message);
       } finally {
         setIsLoading(false);
       }
@@ -44,16 +48,21 @@ const BookListPage = () => {
       return;
     }
     try {
+      // setError(null); // Can potentially clear error before attempting delete
       await deleteBook(bookId, token);
       setBooks(prevBooks => prevBooks.filter(book => book._id !== bookId));
       console.log('Book deleted successfully');
-    } catch (err: any) {
+    } catch (err: unknown) { // <-- Fixed: unknown type
       console.error('Failed to delete book:', err);
-      setError(err.message || 'Failed to delete book.');
+      let message = 'Failed to delete book.';
+        if (err instanceof Error) {
+             message = err.message; // <-- Added type check
+        } else if (typeof err === 'string') {
+             message = err;
+        }
+      setError(message);
     }
   };
-
-  // Removed handleLogout function
 
   // --- Render Logic ---
   let content;
@@ -61,7 +70,7 @@ const BookListPage = () => {
     content = <Loader />; 
   } else if (error) {
     content = (
-      <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red" mt="md">
+      <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red" mt="md" withCloseButton onClose={() => setError(null)}> {/* Added close button */}
         {error}
       </Alert>
     );
@@ -80,22 +89,10 @@ const BookListPage = () => {
                <Text size="sm" c="dimmed">by {book.author} {book.publicationYear && `(${book.publicationYear})`}</Text>
             </Stack>
             <Group gap="xs">
-              <Button
-                component={Link} 
-                to={`/edit-book/${book._id}`}
-                variant="outline"
-                size="xs"
-                leftSection={<IconEdit size={14} />}
-              >
+              <Button component={Link} to={`/edit-book/${book._id}`} variant="outline" size="xs" leftSection={<IconEdit size={14} />}>
                 Edit
               </Button>
-              <Button
-                variant="outline"
-                color="red"
-                size="xs"
-                onClick={() => handleDelete(book._id)}
-                leftSection={<IconTrash size={14} />}
-              >
+              <Button variant="outline" color="red" size="xs" onClick={() => handleDelete(book._id)} leftSection={<IconTrash size={14} />}>
                 Delete
               </Button>
             </Group>
@@ -107,10 +104,7 @@ const BookListPage = () => {
 
   return (
     <Container size="md" px="xs" style={{ marginTop: '30px' }}> 
-       {/* Removed the top Group containing Title, Add Book, and Logout buttons */}
-       {/* The Title is now typically part of the Navbar or page content below */}
-       <Title order={2} mb="xl">Your Books</Title> {/* Added Title here instead */}
-       
+       <Title order={2} mb="xl">Your Books</Title>
        {content} 
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { loginUser } from '../services/authService'; // Import the login service function
 import { useAuth } from '../context/AuthContext'; // Add this import
@@ -34,11 +34,27 @@ const LoginPage = () => {
       // 3. Redirect to the main page
       navigate('/'); // Redirect to BookListPage (or dashboard)
 
-    } catch (err: any) {
-      // If loginUser throws an error, catch it here
-      console.error('Login failed:', err.message);
-      setError(err.message || 'An unexpected error occurred.'); // Display the error message
-    } finally {
+    } catch (err: unknown) { // <--- Change 'any' to 'unknown'
+      console.error('Operation failed:', err); // Keep logging the raw error for debugging
+  
+      // Determine the error message safely
+      let message = 'An unexpected error occurred.'; // Default message
+      if (err instanceof Error) {
+          // If it's an Error object, use its message property
+          message = err.message; 
+      } else if (typeof err === 'string') {
+          // If the caught value is just a string, use it directly
+          message = err;
+      } 
+      // Add more checks here if errors could be other types
+  
+      setError(message); // Update the error state with the determined message
+  
+      // Make sure to reset loading state if applicable within the catch block
+      if (typeof setIsLoading === 'function') { // Check if setIsLoading exists
+           setIsLoading(false);
+      }
+  } finally {
       // Ensure loading state is turned off regardless of success or failure
       setIsLoading(false); 
     }

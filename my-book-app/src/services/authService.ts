@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios'; // Ensure AxiosError is imported if not already
+import axios from 'axios'; // Ensure AxiosError is imported if not already
 
 // Define the base URL of your backend API
 // Make sure this matches where your backend is running (port 5000 based on previous logs)

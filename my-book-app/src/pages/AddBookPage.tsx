@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { addBook } from '../services/bookService';
@@ -53,11 +53,27 @@ const AddBookPage = () => {
       await addBook(bookData, token);
       console.log('Book added successfully');
       navigate('/'); // Navigate back to the book list page on success
-    } catch (err: any) {
-      console.error('Failed to add book:', err);
-      setError(err.message || 'Failed to add book.');
-      setIsLoading(false); 
-    }
+    } catch (err: unknown) { // <--- Change 'any' to 'unknown'
+      console.error('Operation failed:', err); // Keep logging the raw error for debugging
+  
+      // Determine the error message safely
+      let message = 'An unexpected error occurred.'; // Default message
+      if (err instanceof Error) {
+          // If it's an Error object, use its message property
+          message = err.message; 
+      } else if (typeof err === 'string') {
+          // If the caught value is just a string, use it directly
+          message = err;
+      } 
+      // Add more checks here if errors could be other types
+  
+      setError(message); // Update the error state with the determined message
+  
+      // Make sure to reset loading state if applicable within the catch block
+      if (typeof setIsLoading === 'function') { // Check if setIsLoading exists
+           setIsLoading(false);
+      }
+  }
   };
 
   return (
