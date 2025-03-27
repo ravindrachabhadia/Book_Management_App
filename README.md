@@ -1,38 +1,71 @@
-# Book Management App - Full Stack Developer Home Assignment
+# Book Management App - Full Stack Assignment
 
 ## Overview
-This assignment is designed to evaluate your skills as a full stack developer. You will be tasked with developing a Book Management Application that allows users to manage their book collection effectively.
 
-## Requirements
-- **Frontend**: Create a user-friendly interface that allows users to:
-  - Add new books to their collection
-  - Edit existing book details
-  - Delete books from their collection
-  - View a list of all books in their collection
+This application allows users to register, log in, and manage a personal collection of books. It features a frontend built with React and a backend API built with Node.js/Express. This project was created as part of a full-stack developer hiring assignment.
 
-- **Backend**: You will be provided with an authentication backend codebase. You are required to integrate this with your application to handle user authentication and authorization.
+## Features
 
-## Provided Resources
-- **Auth Backend Codebase**: The company has provided a pre-built authentication backend. You will need to familiarize yourself with this codebase and integrate it into your application.
+* User registration and login (JWT authentication)
+* Add new books (title, author, optional ISBN, year, genre)
+* View a list of owned books
+* Edit existing book details
+* Delete books
 
-## Technical Specifications
-- **Frontend Framework**: You may use any modern JavaScript framework (e.g., React, Angular, Vue.js).
-- **Backend**: You can choose to use Node.js, Express, or any other backend technology you are comfortable with.
-- **Database**: Use a database of your choice (e.g., MongoDB, PostgreSQL) to store book information.
+## Technologies Used
 
-## Submission Guidelines
-- Please submit your code in a public GitHub repository.
-- Include a README file that explains how to set up and run your application.
-- Ensure your code is well-documented and follows best practices.
+**Backend:**
+* Node.js [cite: uploaded:src/index.ts]
+* Express [cite: uploaded:src/index.ts]
+* TypeScript [cite: uploaded:src/index.ts]
+* MongoDB (via Mongoose) [cite: uploaded:src/index.ts, uploaded:src/models/user.model.ts]
+* JSON Web Tokens (JWT) for authentication [cite: uploaded:src/middleware/auth.middleware.ts, uploaded:src/controllers/auth.controller.ts]
+* `bcryptjs` for password hashing [cite: uploaded:src/controllers/auth.controller.ts]
+* `dotenv` for environment variables
+* `cors` for enabling cross-origin requests [cite: uploaded:src/index.ts]
 
-## Evaluation Criteria
-- Code quality and organization
-- User interface design and usability
-- Proper integration of the authentication backend
-- Functionality and completeness of the application
+**Frontend:**
+* React (with Vite)
+* TypeScript
+* `react-router-dom` for routing
+* `axios` for API calls
+* Mantine UI component library (@mantine/core, @mantine/hooks)
+* React Context API for Authentication State Management
 
-## Deadline
-Please submit your completed assignment by 7 days.
+## Setup and Installation
 
-## Good Luck!
-We look forward to seeing your work and how you approach this assignment!
+### Prerequisites
+
+* Node.js (v18 or later recommended)
+* npm or yarn
+* MongoDB Instance (Local installation or a connection URI from MongoDB Atlas)
+
+### Backend Setup
+
+1.  Clone the repository: `git clone <your-repo-url>`
+2.  Navigate to the backend directory: `cd your-repo-name/backend` (or your backend folder name)
+3.  Install dependencies: `npm install` (or `yarn install`)
+4.  Create a `.env` file in the `backend` directory.
+5.  Add the following environment variables to the `.env` file, replacing the placeholders:
+    ```env
+    PORT=5000 # Or your desired port
+    MONGODB_URI=<your_mongodb_connection_string> # e.g., mongodb://localhost:27017/book_app or mongodb+srv://...
+    JWT_SECRET=<your_strong_random_secret_key>
+    ```
+6.  Run the backend development server: `npm run dev`
+    *(The server should start on the specified PORT, e.g., http://localhost:5000)*
+
+### Frontend Setup
+
+1.  Navigate to the frontend directory: `cd ../frontend` (or `cd your-repo-name/my-book-app`)
+2.  Install dependencies: `npm install` (or `yarn install`)
+3.  **(Optional but Recommended):** Verify the backend API URL in `frontend/src/services/authService.ts` and `frontend/src/services/bookService.ts` points to your running backend (e.g., `http://localhost:5000`).
+4.  Run the frontend development server: `npm run dev`
+    *(The server should start, typically on http://localhost:5173)*
+
+## Running the Application
+
+1.  Ensure both the backend and frontend development servers are running.
+2.  Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5173`).
+3.  Register a new user or log in with existing credentials.
+4.  Manage your books via the user interface.
